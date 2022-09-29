@@ -2,23 +2,43 @@ const express = require("express");
 const app = express();
 const PORT = 3003;
 const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/newLink");
+let db = mongoose.connection;
 
-mongoose.connect("mongodb://localhost/blog", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const linkSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  url: String,
+  click: Number,
 });
 
-let db = mongoose.connection;
+const Link = mongoose.model("Link", linkSchema);
+
+let link = new Link({
+  click: 0,
+  title: "",
+  description: "",
+  url: "",
+  __v: 0,
+});
+
+link
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 db.on("error", () => {
-  console.log("Algum erro ocorreu");
+  console.log(error);
 });
 db.once("open", () => {
-  console.log(db.name);
-});
-app.get("/", (req, res) => {
-  res.send("Hello World");
+  console.log("Você conseguiu logar no banco de dados!");
 });
 
+app.get("/", (req, res) => {});
 app.listen(PORT, () => {
   console.log("Server is running on port " + PORT);
 });
