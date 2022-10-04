@@ -15,6 +15,6 @@ router.get("/", (req, res) => {
 });
 
 router.delete("/:id", linkController.deleteLink);
-router.delete("/:id", linkController.deleteLink);
+router.delete("/:id", express.json(), linkController.deleteLink);
 
 module.exports = router;

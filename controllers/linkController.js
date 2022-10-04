@@ -37,7 +37,8 @@ const allLinks = async (req, res) => {
 const deleteLink = async (req, res) => {
   let id = req.params.id;
   try {
-    res.send(await Link.findByIdAndDelete(id));
+    await Link.findByIdAndDelete(id);
+    res.send(id);
   } catch (err) {
     res.send(err);
   }
